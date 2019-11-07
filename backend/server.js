@@ -11,9 +11,10 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
 
-const server = require('http').createServer(app);
-const io = require('socket.io').listen(server);
-const PORT = 3000;
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+const PORT = 3005;
 server.listen(PORT);
 
 mongoose.connect('mongodb://localhost/ee', { useMongoClient: true });
@@ -39,6 +40,38 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(__dirname + '/views'));
+var User = require('./models/user');
+var Notification =  require('./models/notification');
+var Question = require('./models/question');
+var Answer = require('./models/answer');
+
+app.get('/answered/:time/:id', function(req,res){
+  Question.findOne({id: req.params.id}, (err, question) =>{
+    Answer.find({_id :{$in : question.answers}, time : {$gt:req.params.time}}, function(err, answers){
+      res.json({msg:'Answered'});
+    });
+  });
+});
+
+app.get('/notifications', function(req,res){
+  const userId = req.session.userId;
+
+  User.findOne({unique_id:userId}, (err, user) =>{
+    Notification.find({
+      '_id' : {
+        $in : user.notifcations
+      }
+    }, function (err, notifcations){
+
+      for(not in notifcations){
+        notifcation.read = true;
+        notifcation.save();
+      }
+      res.json(notifcations);
+    });
+  });
+
+});
 
 var index = require('./routes/user');
 var questionRoutes = require('./routes/question');
@@ -57,7 +90,7 @@ app.use('/questions', questionRoutes);
 
 
 // listen on port 3000
-app.listen(3001, function () {
+app.listen(3002, function () {
   console.log('Express app listening on port 3000');
 });
 

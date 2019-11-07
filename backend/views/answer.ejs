@@ -1,0 +1,25 @@
+<form action="" method="post">
+<input name="answer">
+<button>Post</button>
+</form>
+<ul id="notifications">
+
+</ul>
+<script  data-src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/js"></script>
+<script>
+
+$ul = $('#notifications');
+
+$.ajax({
+url: "http://localhost:8001/answered/" + (Math.round((new Date()).getTime() / 1000)+'/3')
+})
+.done(function( data ) {
+if (data.notifications){
+  $ul.html('');
+
+  for(let i = 0; i < data.notifications.length; i++){
+      $ul.appendChild(`<li>{{data.notifications[i]}}</li>`);
+  }
+}
+});
+</script>
