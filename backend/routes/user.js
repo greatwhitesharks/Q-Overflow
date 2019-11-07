@@ -2,13 +2,17 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
 
-router.get('/', function (req, res, next) {
-    console.log('Here')
+router.get('/register', function (req, res, next) {
 	return res.render('index.ejs');
 });
 
 
-router.post('/', function(req, res, next) {
+router.get('/nots', function (req, res, next) {
+	return res.render('notifications.ejs');
+});
+
+
+router.post('/register', function(req, res, next) {
 	console.log(req.body);
 	var personInfo = req.body;
 
@@ -88,7 +92,7 @@ router.get('/profile', function (req, res, next) {
 		console.log("data");
 		console.log(data);
 		if(!data){
-			res.redirect('/');
+			res.redirect('/users/login');
 		}else{
 			//console.log("found");
 			return res.render('data.ejs', {"name":data.username,"email":data.email});
@@ -104,7 +108,7 @@ router.get('/logout', function (req, res, next) {
     	if (err) {
     		return next(err);
     	} else {
-    		return res.redirect('/');
+    		return res.redirect('/users/login');
     	}
     });
 }

@@ -1,66 +1,77 @@
-const mongoose = require('mongoose')
-const cors = require('cors')
-const express = require('express')
+var express = require('express');
+var ejs = require('ejs');
 var path = require('path');
-const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
-const app = express();
-const port = 8100;
 
-app.use(cors)
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }));
+var app = express();
 
-const uri = "mongodb://localhost/aow";
 
-mongoose.connect(uri,{
-    useNewUrlParser : true,
-    useCreateIndex : true,
-    useUnifiedTopology:true
+var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+
+
+const server = require('http').createServer(app);
+const io = require('socket.io').listen(server);
+const PORT = 3000;
+server.listen(PORT);
+
+mongoose.connect('mongodb://localhost/ee', { useMongoClient: true });
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
 });
 
-const connection = mongoose.connection;
-
-connection.once('open', ()=> console.log('Database connection opened successfully!'))
-
-
 app.use(session({
-    secret: 'work hard',
-    resave: true,
-    saveUninitialized: false,
-    store: new MongoStore({
-      mongooseConnection: connection
-    })
-  }));
-  
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: db
+  })
+}));
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');	
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-  
 app.use(express.static(__dirname + '/views'));
 
-var userRoutes = require('./routes/user');
-app.use('/users', userRoutes);
-  
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-var err = new Error('File Not Found');
-err.status = 404;
-next(err);
+var index = require('./routes/user');
+var questionRoutes = require('./routes/question');
+app.use('/users', index);
+app.use('/questions', questionRoutes);
+
+
+// // error handler
+// // define as the last app.use callback
+// app.use(function (err, req, res, next) {
+//   res.status(err.status || 500);
+//   res.send(err.message);
+// });
+
+//Whenever someone connects this gets executed
+
+
+// listen on port 3000
+app.listen(3001, function () {
+  console.log('Express app listening on port 3000');
 });
-  
-// error handler
-// define as the last app.use callback
-app.use(function (err, req, res, next) {
-res.status(err.status || 500);
-res.send(err.message);
+
+
+const connections = [];
+
+io.sockets.on('connection',(socket) => {
+   connections.push(socket);
+   console.log(' %s sockets is connected', connections.length);
 });
 
-
-
-app.listen(port, ()=>{
-    console.log('Running...')
-})
-
-
+// // catch 404 and forward to error handler
+// app.use(function (req, res, next) {
+//   var err = new Error('File Not Found');
+//   err.status = 404;
+//   next(err);
+// });
