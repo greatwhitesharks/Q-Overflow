@@ -1,16 +1,55 @@
-<div id="respond">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
-    <h3>Answer Question</h3>
-  
-    <form action="post_comment.php" method="post" id="commentform">
-  
-      <label for="answer" class="required">Your message</label>
-      <textarea name="answer" id="comment" rows="10" tabindex="4"  required="required"></textarea>
-  
-      <-- comment_post_ID value hard-coded as 1 -->
-      <input type="hidden" name="answer_post_ID" value="1" id="answer_post_ID" />
-      <input name="submit" type="submit" value="Submit Answer" />
-  
-    </form>
-  
-  </div>
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Form by Colorlib</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="main">
+
+        <section class="login">
+            <!-- <img src="images/signup-bg.jpg" alt=""> -->
+            <div class="container">
+                <div class="login-content">
+                    <form method="POST" id="login-form" class="login-form">
+                        <h2 class="form-title">Answer Question</h2>
+
+                        <div class="label">Question</div>
+                        <div class="form-group">
+                            <textarea rows="7" type="" class="form-input" name="Question" id="Question" placeholder="Answer"></textarea>
+                        </div>
+                    
+                        <div class="form-group sub" >
+                            <input type="submit" name="submit" id="" class="form-submit" value="Submit"/>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- JS -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>

@@ -8,27 +8,18 @@ $('.rating').each(function(){
 
 $(this).find(".rating-up").click(function(){	
 
-if(voteAmount < 10) {
   voteAmount ++;
-$(this).siblings('.counter').text(voteAmount);
-}
+  $(this).siblings('.counter').text(voteAmount);
 
-else {
-alert("Maximum votes reached! Stop clicking!");
-};
 });
 
 
 $(this).find(".rating-down").click(function(){	
 
-if(voteAmount > 0) {
+
   voteAmount --;
 $(this).siblings('.counter').text(voteAmount);
-}
 
-else {
-alert("Minimum votes reached! Stop clicking!");
-};
 });
 
 
