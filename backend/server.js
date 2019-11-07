@@ -16,7 +16,7 @@ var io = require('socket.io')(server);
 
 
 
-mongoose.connect('mongodb://localhost/ee', { useMongoClient: true });
+mongoose.connect('mongodb://localhost/db2', { useMongoClient: true });
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -47,7 +47,7 @@ var Answer = require('./models/answer');
 app.get('/answered/:time/:id', function(req,res){
   Question.findOne({id: req.params.id}, (err, question) =>{
     Answer.find({_id :{$in : question.answers}, time : {$gt:req.params.time}}, function(err, answers){
-      res.json({msg:'Answered'});
+      res.redirect('/questions/'+req.params.id);
     });
   });
 });
@@ -97,7 +97,7 @@ app.use('/questions', questionRoutes);
 
 
 // listen on port 3000
-app.listen(3002, function () {
+app.listen(3005, function () {
   console.log('Express app listening on port 3000');
 });
 

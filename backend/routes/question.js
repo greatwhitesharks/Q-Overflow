@@ -34,15 +34,22 @@ router.get('/ask', function (req, res, next){
 router.get('/:id', function (req, res, next) {
     Question.findOne({ id: req.params.id }, function (error, question) {
         if(question){
+           
             Answer.find({_id : {$in : question.answers}}, (err, answers)=>{
-                res.render('q.ejs',{
-                    question: question.question,
-                    answered: question.answered,
-                    id : question.id,
-                    tags : question.tag,
-                    answers : answers,
-                    upvotes : question.upvotes
+                User.findById(question.user, (err, user)=>{
+                    res.render('q.ejs',{
+                        question: question.question,
+                        answered: question.answered,
+                        id : question.id,
+                        tags : question.tag,
+                        answers : answers,
+                        marked:question.marked,
+                        upvotes : question.upvotes,
+                        owner : user.unique_id === req.session.userId,
+                        author: user.name
+                    });
                 });
+          
             });
        
         }
@@ -53,17 +60,20 @@ router.get('/:id', function (req, res, next) {
     });
 });
 
-router.post('/mark/:id', function (req,res){
-    const userId = req.body.userId;
-
-    Question.findOne({id:req.body.params.id}, (err,question) =>{
-        User.findById(question.user, (err, user)=>{
-            if(userId === user.unique_id){
-                question.answered = true;
-                question.save().then(()=> console.log('saved')).catch((err)=> console.log('error occured while saving',err));
-            }else{
-                res.json({error:'You don\'t have permission'});
-            }
+router.post('/mark/:id/:qid', function (req,res){
+    const userId = req.session.userId;
+    Answer.findOne({id:req.params.id}, (err,answer)=>{
+        Question.findOne({id:req.params.qid}, (err,question)=>{
+            User.findById(question.user, (err, user)=>{
+                if(req.session.userId === user.unique_id){
+                    question.marked = answer.id;
+                    question.save().then((question)=> {
+                       
+                        res.redirect('/questions/' + req.params.qid)
+                        
+                    });
+                }
+            });
         });
     });
 });
@@ -97,6 +107,7 @@ router.post('/add', function (req, res, next) {
                     user,
                     answers: [],
                     tags : tags.split(','),
+                    answerd: false,
                     upvotes: 0
                 });
 
@@ -140,25 +151,30 @@ router.post('/answer/:id', function (req, res) {
                   
                     User.findById(question.user, (err, questionUser)=>{
                         if (user.unique_id != questionUser.unique_id) {
-                            const ans = Answer({answer, user, date:Date.now()});
-                            ans.save().then((answer)=>{
-                                question.answers.push(answer);
-                                question.save(function(err, question){
-                                    if(err){
-                                        console.log(err);
-                                    }
-                                    else{
-               
-                                        res.json({success:'success'})
-                                        var notification = Notification({
-                                            message : `{user.name} has answered your question`,
-                                            read : false
-                                        });
-                                        notification.save().then(()=>console.log('Notification saved!')).catch((err)=> console.log('error occured', err));
-                                    }
-                                });
 
-                            });
+                            Answer.findOne({}, function(err,data){
+                                const ans = Answer({id:(data) ? data.id +1: 1,answer, user, date:Date.now()});
+                                ans.save().then((answer)=>{
+                                    question.answers.push(answer);
+                                    question.save(function(err, question){
+                                        if(err){
+                                            console.log(err);
+                                        }
+                                        else{
+                   
+                                           
+                                            var notification = Notification({
+                                                message : `{user.name} has answered your question`,
+                                                read : false
+                                            });
+                                            notification.save().then(()=>console.log('Notification saved!')).catch((err)=> console.log('error occured', err));
+                                            res.redirect('/questions/'+req.params.id);
+                                        }
+                                    });
+    
+                                });
+                            }).sort({_id: -1}).limit(1);
+                         
                             
                         
                         } else {

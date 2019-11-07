@@ -25,7 +25,7 @@
 				<table>
 					<% for (let i = 0; i < questions.length; i ++) {%>
 					<tr id="<%= questions[i].id %>">
-						<td><a href="http://localhost:3002/questions/<%= questions[i].id %>"><%= questions[i].question %></a></td>
+						<td><a href="http://localhost:3005/questions/<%= questions[i].id %>"><%= questions[i].question %></a></td>
 						<td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="deleteQ(<%= questions[i].id%>)">Delete</a></td>
 					</tr> 
 					<% } %>
@@ -43,7 +43,7 @@
 
 
 		function checkForUpdates(){
-			axios.get('http://localhost:3002/questions/remove', {
+			axios.get('http://localhost:3005/questions/remove', {
     id
   })
   .then(function (response) {
@@ -59,7 +59,7 @@
 
 		function deleteQ(id){
 			document.getElementById(id).innerHTML = '';
-		axios.post('http://localhost:3002/questions/remove', {
+		axios.post('http://localhost:3005/questions/remove', {
     id
   })
   .then(function (response) {

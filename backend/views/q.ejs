@@ -14,6 +14,8 @@
           <span id="uv"><%= upvotes %></span>
           <button onclick="upvote()">up</button>
           <button onclick="downvote()">down</button>
+    
+         
         </div>
         <div class="card-body">
           
@@ -22,14 +24,32 @@
           
         </div>
         <div class="card-footer text-muted">
-          2 days ago
+      
         </div>
       </div>
+<div id="box">
+  <form action="http://localhost:3005/questions/answer/<%=id%>" method="POST">
+    <textarea name="answer"></textarea>
+    <button>Submit</button>
+  </form>
+</div>
 
-
+<% for(var i = 0; i < answers.length; i++) { %>
 <div id="ans">
+  
+<% if ( answers[i].id == marked) {%>
+    [Marked]
+<% } else{
+  if (owner) {%>
+  <form action="http://localhost:3005/questions/mark/<%=answers[i].id%>/<%=id%>" method="post">
+    <button>Mark Answer</button>
+  </form>
+  <%}}%>
+
+<%= answers[i].answer %> 
 
 </div>
+<% } %>
       
       
 </body>
@@ -37,7 +57,7 @@
 <script>
 
 function upvote(){
-  axios.post('http://localhost:3002/questions/upvote/<%=id%>', {
+  axios.post('http://localhost:3005/questions/upvote/<%=id%>', {
    
   })
   .then(function (response) {
@@ -48,7 +68,7 @@ function upvote(){
   });
 }
 function downvote(){
-  axios.post('http://localhost:3002/questions/downvote/<%=id%>', {
+  axios.post('http://localhost:3005/questions/downvote/<%=id%>', {
    
   })
   .then(function (response) {

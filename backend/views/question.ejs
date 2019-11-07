@@ -398,7 +398,7 @@ input[type=checkbox]:not(old):checked + label > span:before {
             <!-- <img src="images/signup-bg.jpg" alt=""> -->
             <div class="container">
                 <div class="login-content">
-                    <form method="POST" id="login-form" action="http://localhost:3002/questions/add/" class="login-form">
+                    <form method="POST" id="login-form" action="http://localhost:3005/questions/add/" class="login-form">
                         <h2 class="form-title">Ask Question</h2>
                         <div class="form-group">
                             <textarea rows="7" type="" class="form-input" name="question" id="question" placeholder="Question"></textarea>
@@ -428,7 +428,7 @@ input[type=checkbox]:not(old):checked + label > span:before {
     <script>
     
     function post(e){
-        axios.post('http://localhost:3002/questions/add/', {
+        axios.post('http://localhost:3005/questions/add/', {
      tags : document.getElementById('tags').value,
      question : document.getElementById('question').value
   })
