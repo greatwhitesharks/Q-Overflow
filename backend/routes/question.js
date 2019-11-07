@@ -2,11 +2,12 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
 var Question = require('../models/question');
+var Notification = require('../models/notification');
 
 router.get('/:id', function (req, res, next) {
     Question.findOne({ id: req.params.id }, function (error, question) {
         if(question){
-            res.json(question);
+            res.render('question.ejs');
         }
 
         if(error){
@@ -80,13 +81,26 @@ router.post('/answer/:id', function (req, res) {
                   
                     User.findById(question.user, (err, questionUser)=>{
                         if (user.unique_id != questionUser.unique_id) {
-                            question.answers.push(answer);
-                            question.save(function(err, question){
-                                if(err)
-                                    console.log(err);
-                                else
-                                    console.log('Success');
+                            const answer = Answer({answer});
+                            answer.save().then((answer)=>{
+                                question.answers.push(answer);
+                                question.save(function(err, question){
+                                    if(err){
+                                        console.log(err);
+                                    }
+                                    else{
+                                        console.log('Success');
+                                        var notification = Notification({
+                                            message : `{user.name} has answered your question`,
+                                            read : false
+                                        });
+                                        notification.save().then(()=>console.log('Notification saved!')).catch((err)=> console.log('error occured', err));
+                                    }
+                                });
+
                             });
+                            
+                        
                         } else {
                             res.json({ message: 'You can\'t answer your own question' });
                         }

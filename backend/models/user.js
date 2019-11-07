@@ -7,6 +7,7 @@ userSchema = new Schema( {
 	email: String,
 	username: String,
 	password: String,
+	notifications:  [{type:Schema.Types.ObjectId, ref:'Notification'}],
 	passwordConf: String
 }),
 User = mongoose.model('User', userSchema);

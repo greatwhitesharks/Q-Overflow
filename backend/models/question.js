@@ -5,7 +5,7 @@ questionSchema = new Schema( {
 	id: Number,
     question : String,
     answered : Boolean,
-    answers : [{ type: String }],
+    answers : [{type:Schema.Types.ObjectId, ref:'Answer'}],
     user : {type:Schema.Types.ObjectId, ref:'User'},
     upvotes: Number
 }),
