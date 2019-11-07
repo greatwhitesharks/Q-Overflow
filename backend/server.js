@@ -1,66 +1,55 @@
-const mongoose = require('mongoose')
-const cors = require('cors')
-const express = require('express')
+var express = require('express');
+var ejs = require('ejs');
 var path = require('path');
-const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
-const app = express();
-const port = 8100;
+var app = express();
+var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 
-app.use(cors)
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }));
+mongoose.connect('mongodb://localhost/ManualAuth', { useMongoClient: true });
 
-const uri = "mongodb://localhost/aow";
-
-mongoose.connect(uri,{
-    useNewUrlParser : true,
-    useCreateIndex : true,
-    useUnifiedTopology:true
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
 });
 
-const connection = mongoose.connection;
-
-connection.once('open', ()=> console.log('Database connection opened successfully!'))
-
-
 app.use(session({
-    secret: 'work hard',
-    resave: true,
-    saveUninitialized: false,
-    store: new MongoStore({
-      mongooseConnection: connection
-    })
-  }));
-  
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: db
+  })
+}));
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');	
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-  
 app.use(express.static(__dirname + '/views'));
 
-var userRoutes = require('./routes/user');
-app.use('/users', userRoutes);
-  
+var index = require('./routes/user');
+app.use('/users', index);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-var err = new Error('File Not Found');
-err.status = 404;
-next(err);
+  var err = new Error('File Not Found');
+  err.status = 404;
+  next(err);
 });
-  
+
 // error handler
 // define as the last app.use callback
 app.use(function (err, req, res, next) {
-res.status(err.status || 500);
-res.send(err.message);
+  res.status(err.status || 500);
+  res.send(err.message);
 });
 
 
-
-app.listen(port, ()=>{
-    console.log('Running...')
-})
-
-
+// listen on port 3000
+app.listen(8000, function () {
+  console.log('Express app listening on port 3000');
+});

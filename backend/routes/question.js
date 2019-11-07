@@ -6,7 +6,7 @@ var Question = require('../models/question');
 //View question
 router.get('/:id', function (req, res, next) {
 
-	return res.render('index.ejs');
+	console.log('asdas')
 });
 
 router.post('/add', function (req, res, next) {
