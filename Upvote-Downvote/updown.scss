@@ -1,0 +1,25 @@
+.button {
+	cursor: pointer;
+	display: inline-block;
+	background: grey;
+	color: #fff;
+	padding: 20px 30px;
+	transition: all 0.75s ease;
+	
+	&.rating-up:hover {
+				background: limegreen;
+		}		
+	
+	&.rating-down:hover {
+		background: red;
+		
+	}
+		
+}
+
+.counter {
+	padding: 17px;
+	border: 2px solid grey;
+	display: inline-block;
+	vertical-align: top;
+}
