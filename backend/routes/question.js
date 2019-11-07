@@ -7,7 +7,21 @@ var Answer = require('../models/answer')
 var Filter = require('bad-words');
 var filter = new Filter;
 
-router.get('/noti')
+router.get('/newanswers/:id/:time', (req, res) =>{
+
+    var date = new Date(time*1000);
+
+
+User.findOne({id:req.session.userId}, (err,user)=>{
+    Question.findOne({id:req.params.id}, (err, question)=>{
+        Answers.findOne({id:{$in: question.answers}, date :{$gt: date},user:{$ne: user._id}}, (err,answer)=>{
+            if(answer){
+                res.json({answered:true});
+            } 
+        });
+    });
+});
+});
 
 router.get('/ask', function (req, res, next){
     if(req.session.userId){

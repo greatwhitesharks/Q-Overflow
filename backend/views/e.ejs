@@ -1,0 +1,22 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
+<script>
+checkForNewAnswer();
+
+function checkForNewAnswer(){
+  axios.post('http://localhost:3002/newanswers/id/'+ (+ new Date()), {
+   
+  })
+  .then(function (response) {
+    if(response.data.answered){
+        alert('Someone has already answered this question')
+        
+    }else{
+        setTimeout(checkForNewAnswer,1000);
+    }
+  })
+  .catch(function (error) {
+    alert(error.response.data.error);
+  });
+}
+
+</script>

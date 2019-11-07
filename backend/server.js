@@ -14,8 +14,7 @@ var MongoStore = require('connect-mongo')(session);
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-const PORT = 3005;
-server.listen(PORT);
+
 
 mongoose.connect('mongodb://localhost/ee', { useMongoClient: true });
 
@@ -53,6 +52,10 @@ app.get('/answered/:time/:id', function(req,res){
   });
 });
 
+app.get('/efg', function(req,res){
+  res.render('e');
+});
+
 app.get('/notifications', function(req,res){
   const userId = req.session.userId;
 
@@ -71,6 +74,10 @@ app.get('/notifications', function(req,res){
     });
   });
 
+});
+
+app.get('/test', function(req,res){
+res.render('e');
 });
 
 var index = require('./routes/user');
@@ -95,12 +102,7 @@ app.listen(3002, function () {
 });
 
 
-const connections = [];
 
-io.sockets.on('connection',(socket) => {
-   connections.push(socket);
-   console.log(' %s sockets is connected', connections.length);
-});
 
 // // catch 404 and forward to error handler
 // app.use(function (req, res, next) {
