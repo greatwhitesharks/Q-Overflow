@@ -20,10 +20,60 @@
 					<tr><td>Email </td><td><%= email %></td></tr>
 				</table>
 			</center>
+			<center>
+					<h4>Asked Questions</h4>
+				<table>
+					<% for (let i = 0; i < questions.length; i ++) {%>
+					<tr id="<%= questions[i].id %>">
+						<td><a href="http://localhost:3002/questions/<%= questions[i].id %>"><%= questions[i].question %></a></td>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="deleteQ(<%= questions[i].id%>)">Delete</a></td>
+					</tr> 
+					<% } %>
+				</table>
+
+			</center>
 		</div>
+
 		<div class="abc">
 			<a href="./logout">Logout</a>
 		</div>
 	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
+	<script>
+
+
+		function checkForUpdates(){
+			axios.get('http://localhost:3002/questions/remove', {
+    id
+  })
+  .then(function (response) {
+
+	  document.getElementById(response.data.id).innerHTML = '';
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+		}
+
+
+		function deleteQ(id){
+			document.getElementById(id).innerHTML = '';
+		axios.post('http://localhost:3002/questions/remove', {
+    id
+  })
+  .then(function (response) {
+
+	  document.getElementById(response.data.id).innerHTML = '';
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
+	</script>
 </body>
+
 </html>
+
+

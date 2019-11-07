@@ -7,6 +7,8 @@ userSchema = new Schema( {
 	email: String,
 	username: String,
 	password: String,
+	upvoted : [{type:Schema.Types.ObjectId, ref:'Question'}],
+	downvoted : [{type:Schema.Types.ObjectId, ref:'Question'}],
 	notifications:  [{type:Schema.Types.ObjectId, ref:'Notification'}],
 	passwordConf: String
 }),

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
-
+var Question = require('../models/question');
 router.get('/register', function (req, res, next) {
 	return res.render('index.ejs');
 });
@@ -68,6 +68,9 @@ router.get('/login', function (req, res, next) {
 
 router.post('/login', function (req, res, next) {
 	//console.log(req.body);
+	if(req.session.userId){
+		res.redirect('/users/profile');
+	}else{
 	User.findOne({email:req.body.email},function(err,data){
 		if(data){
 			
@@ -75,7 +78,8 @@ router.post('/login', function (req, res, next) {
 				//console.log("Done Login");
 				req.session.userId = data.unique_id;
 				//console.log(req.session.userId);
-				res.send({"Success":"Success!"});
+				
+				res.redirect('/users/profile')
 				
 			}else{
 				res.send({"Success":"Wrong password!"});
@@ -84,6 +88,7 @@ router.post('/login', function (req, res, next) {
 			res.send({"Success":"This Email Is not regestered!"});
 		}
 	});
+}
 });
 
 router.get('/profile', function (req, res, next) {
@@ -95,7 +100,12 @@ router.get('/profile', function (req, res, next) {
 			res.redirect('/users/login');
 		}else{
 			//console.log("found");
-			return res.render('data.ejs', {"name":data.username,"email":data.email});
+
+			Question.find({user: data}, (err, question)=>{
+				console.log(question);
+				return res.render('data.ejs', {"name":data.username,"email":data.email, "questions" : question});
+			});
+
 		}
 	});
 });

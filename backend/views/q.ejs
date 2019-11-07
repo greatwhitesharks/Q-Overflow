@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body onload="printAns(['ss','ss'])">
+    <div class="card text-center">
+        <div class="card-header">
+          Upvotes:
+          <span id="uv"><%= upvotes %></span>
+          <button onclick="upvote()">up</button>
+          <button onclick="downvote()">down</button>
+        </div>
+        <div class="card-body">
+          
+          <h5 class="card-title"> <%= question %></h5>
+          <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+          
+        </div>
+        <div class="card-footer text-muted">
+          2 days ago
+        </div>
+      </div>
+
+
+<div id="ans">
+
+</div>
+      
+      
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
+<script>
+
+function upvote(){
+  axios.post('http://localhost:3002/questions/upvote/<%=id%>', {
+   
+  })
+  .then(function (response) {
+    document.getElementById('uv').innerText = response.data.votes;
+  })
+  .catch(function (error) {
+    alert(error.response.data.error);
+  });
+}
+function downvote(){
+  axios.post('http://localhost:3002/questions/downvote/<%=id%>', {
+   
+  })
+  .then(function (response) {
+    document.getElementById('uv').innerText = response.data.votes;
+  })
+  .catch(function (error) {
+    alert(error.response.data.error);
+  });
+}
+</script>
+<script>
+
+
+
+
+function printAns(Ans){
+    var retAns='';
+for (i = 0, len = ans.length, text = ""; i < len; i++) {
+   retAns+= <div class="card">
+  <div class="card-header">
+  
+  </div>
+  <div class="card-body">
+    <blockquote class="blockquote mb-0">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+      <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
+    </blockquote>
+  </div>
+</div>
+      } 
+    var answer=document.getElementsById("ans");
+    answer.innerHTML=retAns;
+
+
+}
+</script>
+</html>

@@ -4,7 +4,8 @@ var Schema = mongoose.Schema;
 answerSchema = new Schema( {
 
     answer:String,
-    time : {Date}
+    user : {type:Schema.Types.ObjectId, ref:'User'},
+    time : Date
 	
 }),
 Answer = mongoose.model('Answer', answerSchema);

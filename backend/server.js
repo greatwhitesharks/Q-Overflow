@@ -11,8 +11,9 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
 
-const server = require('http').createServer(app);
-const io = require('socket.io').listen(server);
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
 const PORT = 3005;
 server.listen(PORT);
 
