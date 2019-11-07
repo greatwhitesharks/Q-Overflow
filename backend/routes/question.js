@@ -7,7 +7,11 @@ var Notification = require('../models/notification');
 router.get('/:id', function (req, res, next) {
     Question.findOne({ id: req.params.id }, function (error, question) {
         if(question){
-            res.render('question.ejs');
+            res.render('question.ejs',{
+                question: question.question,
+                answered: question.answered,
+
+            });
         }
 
         if(error){
