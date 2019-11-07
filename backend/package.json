@@ -1,0 +1,31 @@
+{
+  "name": "art-of-war-",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RealHack-2-0/Art-of-War-.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RealHack-2-0/Art-of-War-/issues"
+  },
+  "homepage": "https://github.com/RealHack-2-0/Art-of-War-#readme",
+  "dependencies": {
+    "bad-words": "^3.0.3",
+    "connect-mongo": "^3.1.2",
+    "cors": "^2.8.5",
+    "ejs": "^2.7.1",
+    "elasticsearch": "^16.5.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "express-validator": "^6.2.0",
+    "mongoose": "^5.7.8",
+    "socket.io": "^2.3.0"
+  }
+}
