@@ -5,17 +5,18 @@ var path = require('path');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const app = express();
-const port = 8000;
+const port = 8100;
 
 app.use(cors)
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }));
 
-const uri = "mongodb+srv://root:artofwar@cluster0-c5dov.gcp.mongodb.net/test?retryWrites=true&w=majority";
+const uri = "mongodb://localhost/aow";
 
 mongoose.connect(uri,{
     useNewUrlParser : true,
-    useCreateIndex : true
+    useCreateIndex : true,
+    useUnifiedTopology:true
 });
 
 const connection = mongoose.connection;
