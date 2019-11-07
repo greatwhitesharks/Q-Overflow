@@ -1,49 +1,35 @@
-Vue.component('post', {
-  template: "#post-template",
-  props: ['post'],
-  data: function () {
-    return {
-      upvoted: false,
-      downvoted: false
-    };
-  },
-  methods: {
-    upvote: function () {
-      this.upvoted = !this.upvoted;
-      this.downvoted = false;
-    },
-    downvote: function () {
-      this.downvoted = !this.downvoted;
-      this.upvoted = false;
-    }
-  },
-  computed: {
-    votes: function () {
-      if (this.upvoted) {
-        return this.post.votes + 1;
-      } else if (this.downvoted) {
-        return this.post.votes - 1;
-      } else {
-        return this.post.votes;
-      }
-    }
-  }
+
+// Use each to assign a copy of the voteAmount variable to EACH of the clickUp buttons.
+$('.rating').each(function(){	
+  var voteAmount = 0;
+
+// Use this to ensure you're attaching the event within EACH of the buttons.
+// Using the classname takes the button you've clicked and continues the number on.
+
+$(this).find(".rating-up").click(function(){	
+
+if(voteAmount < 10) {
+  voteAmount ++;
+$(this).siblings('.counter').text(voteAmount);
+}
+
+else {
+alert("Maximum votes reached! Stop clicking!");
+};
 });
 
-var vm = new Vue({
-  el: "#app",
-  data: {
-    posts: [{
-				title: "A post for our reddit demo starting at 15 votes",
-				votes: 15
-			},
-			{
-				title: "Try out the upvoting, it works, I promise",
-				votes: 53
-			},
-			{
-				title: "coligo is the bomb!",
-				votes: 10
-			}]
-  }
+
+$(this).find(".rating-down").click(function(){	
+
+if(voteAmount > 0) {
+  voteAmount --;
+$(this).siblings('.counter').text(voteAmount);
+}
+
+else {
+alert("Minimum votes reached! Stop clicking!");
+};
 });
+
+
+}); // Ends the each();
