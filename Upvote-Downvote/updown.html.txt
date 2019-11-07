@@ -1,0 +1,6 @@
+<div class="vote roundrect">
+  <div class="increment up"></div>
+  <div class="increment down"></div>
+  
+  <div class="count">4</div>
+</div>
