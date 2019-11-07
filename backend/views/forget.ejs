@@ -17,7 +17,7 @@
 
 				$.ajax({
 					type: 'POST',
-					url: '/forgetpass',
+					url: '/users/forgetpass',
 					data: $('#form2').serialize(),
 					dataType: "json",
 					success: function(response){
@@ -59,7 +59,7 @@
 			<div  class="mssg bg-danger">
 				<span id="check"></span>
 			</div>
-			<div id="LangTable"><a href="/login" id="aa"></a>
+			<div id="LangTable"><a href=./login" id="aa"></a>
 			</div>
 		</div>
 

@@ -16,7 +16,7 @@
 
 				$.ajax({
 					type: 'POST',
-					url: '/login',
+					url: '/users/login',
 					data: $('#form').serialize(),
 					dataType: "json",
 					success: function(response){
@@ -56,9 +56,9 @@
 		<div class="mssg bg-danger">
 			<span id="check" ></span>
 		</div>
-		<div id="LangTable"><a href="/profile" id="aa"></a>
+		<div id="LangTable"><a href="./profile" id="aa"></a>
 		</div>
-		<div><span>Do you forgot password?</span><a href="/forgetpass">click here</a>
+		<div><span>Do you forgot password?</span><a href="./forgetpass">click here</a>
 		</div>
 	</div>
 </body>

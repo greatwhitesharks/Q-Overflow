@@ -5,10 +5,10 @@ questionSchema = new Schema( {
 	id: Number,
     question : String,
     answered : Boolean,
-    answers : [{ type: Schema.Types.ObjectId, ref: 'Answer' }],
-    user : {type.Schema.Types.ObjectID, ref:'User'},
+    answers : [{ type: String }],
+    user : {type:Schema.Types.ObjectId, ref:'User'},
     upvotes: Number
 }),
-User = mongoose.model('Question', questionSchema);
+Question = mongoose.model('Question', questionSchema);
 
 module.exports = Question;
