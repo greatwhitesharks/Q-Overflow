@@ -5,17 +5,17 @@
 	color: #fff;
 	padding: 20px 30px;
 	transition: all 0.75s ease;
-	
-	&.rating-up:hover {
+}	
+.rating-up:hover {
 				background: limegreen;
 		}		
 	
-	&.rating-down:hover {
+.rating-down:hover {
 		background: red;
 		
 	}
 		
-}
+
 
 .counter {
 	padding: 17px;
