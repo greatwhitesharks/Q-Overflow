@@ -1,6 +1,3 @@
 language:node_js
-
-deploy:
-  provider: heroku
-  api_key:
-    secure: "YOUR ENCRYPTED API KEY"
+node_js:
+- "stable"
