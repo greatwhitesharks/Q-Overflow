@@ -79,6 +79,30 @@ function downvote(){
   });
 }
 </script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
+<script>
+
+var e =setInterval(checkForNewAnswer,1000);
+
+function checkForNewAnswer(){
+  axios.post('http://localhost:3005/questions/newanswers/<%=id%>/'+ (+ new Date()), {
+   
+  })
+  .then(function (response) {
+    if(response.data.answered){
+        alert('Someone has already answered this question')
+        clearInterval(e);
+   
+    }
+  })
+  .catch(function (error) {
+    //alert(error.response.data.error);
+  });
+}
+
+</script>
 <script>
 
 

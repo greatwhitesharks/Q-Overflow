@@ -7,14 +7,35 @@ var Answer = require('../models/answer')
 var Filter = require('bad-words');
 var filter = new Filter;
 
-router.get('/newanswers/:id/:time', (req, res) =>{
+router.get('/notifications',(req,res)=>{
+    res.render('not');
+});
 
-    var date = new Date(time*1000);
+router.get('/notifs', (req, res) =>{
+    Notification.find({read:false},(err,not)=>{
+        messages = [];
+        if(not){
+        for(var n of not){
+            messages.push(n);
+            n.read = true;
+            n.save();
+        }
+        res.json(messages);
+    }
+    })
+});
 
+router.post('/newanswers/:id/:time', (req, res) =>{
 
-User.findOne({id:req.session.userId}, (err,user)=>{
+    var date = new Date(req.params.time*1000);
+
+User.findOne({unique_id:req.session.userId}, (err,user)=>{
+    // console.log(1);
     Question.findOne({id:req.params.id}, (err, question)=>{
-        Answers.findOne({id:{$in: question.answers}, date :{$gt: date},user:{$ne: user._id}}, (err,answer)=>{
+        // console.log(2);
+        Answer.findOne({id:{$in: question.answers}, date :{$gt: date},user:{$ne: user._id}}, (err,answer)=>{
+        // console.log(3);
+            console.log(answer);
             if(answer){
                 res.json({answered:true});
             } 

@@ -1,0 +1,58 @@
+
+
+
+
+
+<ul id="notifications">
+
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+        var e =setInterval(checkForNewAnswer,1000);
+        
+        function checkForNewAnswer(){
+          axios.post('http://localhost:3005/questions/notifs/', {
+           
+          })
+          .then(function (response) {
+            if(response.data){
+                
+                var ul = document.getElementById('notifications');
+                
+                for (var i of response.data){
+                    ul.innerHTML = '<li>' + i +'</li>'+ ul.innerHTML;
+                }
+            }
+          })
+          .catch(function (error) {
+            //alert(error.response.data.error);
+          });
+        }
+        
+        </script>
