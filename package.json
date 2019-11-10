@@ -1,0 +1,23 @@
+{
+  "name": "Art-of-War-",
+  "version": "1.0.0",
+  "description": "![Travis](https://travis-ci.com/thamidurm/Q-Overflow.svg?branch=master) Real Time Question and Answer site using Node.js, Express.js, MongoDB Atlas, Heroku, TravisCI, Elasticsearch hosted on bonsai",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thamidurm/Q-Overflow.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thamidurm/Q-Overflow/issues"
+  },
+  "homepage": "https://github.com/thamidurm/Q-Overflow#readme",
+   "engines": {
+    "node": "8.x"
+  },
+}
